@@ -1,0 +1,17 @@
+# frontend/Dockerfile.dev
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Copy package files and install
+COPY package*.json ./
+RUN npm install
+
+# Copy source files
+COPY . .
+
+# Expose Vite/Next/React dev server port (usually 5173, 3000, etc.)
+EXPOSE 5173
+
+# Start dev server with hot reload
+CMD ["npm", "run", "start"]

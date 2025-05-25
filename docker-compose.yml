@@ -1,14 +1,36 @@
 
 services:
+  # dev mode makes it easier for us to update whiel coding
   frontend:
     build:
       context: ./frontend
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./frontend:/app      # Bind mount to reflect live changes
+      - /app/node_modules    # Prevent overwriting node_modules
     ports:
-      - "80:80"          # nginx serves your frontend on port 80
+      - "5173:5173"          # Or whatever port your dev server uses
+    develop:
+      watch:
+        - path: ./frontend
+          target: /app
+          action: sync
     depends_on:
       - backend
-
+  # for when we want to build it
+    # frontend:
+    #   build:
+    #     context: ./frontend
+    #     dockerfile: Dockerfile
+    #   develop:
+    #     watch:
+    #       - path: ./frontend
+    #         target: /app
+    #         action: sync
+    #   ports:
+    #     - "80:80"          # nginx serves your frontend on port 80
+    #   depends_on:
+    #     - backend
   backend:
     build:
       context: ./backend
