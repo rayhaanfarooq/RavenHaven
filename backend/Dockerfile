@@ -11,6 +11,9 @@
 ARG RUBY_VERSION=3.4.1
 FROM docker.io/library/ruby:$RUBY_VERSION-slim AS base
 
+# Install PostgreSQL client dev libraries + other dependencies
+RUN apt-get update && apt-get install -y libpq-dev build-essential
+
 # Rails app lives here
 WORKDIR /rails
 

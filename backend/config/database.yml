@@ -9,9 +9,29 @@ default: &default
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   timeout: 5000
 
+# development:
+#   <<: *default
+#   database: storage/development.sqlite3
+#   adapter: postgresql
+#   encoding: unicode
+#   database: mydb
+#   username: myuser
+#   password: mypassword
+#   host: db
+#   port: 5432
+#   pool: 5
+
 development:
-  <<: *default
-  database: storage/development.sqlite3
+  adapter: postgresql
+  encoding: unicode
+  database: <%= ENV['POSTGRES_DB'] %>
+  username: <%= ENV['POSTGRES_USER'] %>
+  password: <%= ENV['POSTGRES_PASSWORD'] %>
+  host: <%= ENV['POSTGRES_HOST'] %>
+  port: 5432
+  pool: 5
+
+
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -39,3 +59,6 @@ production:
     <<: *default
     database: storage/production_cable.sqlite3
     migrations_paths: db/cable_migrate
+
+
+  
